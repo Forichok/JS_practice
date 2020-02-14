@@ -153,32 +153,6 @@ class LinkedList {
         console.log(this.toString());
     };
 
-
-    LinkedList.prototype.mapSort = function () {
-        let linkedList = this;
-        var sortedList = [];
-        var map = new Map();
-        var currentId = null;
-
-        for (var i = 0; i < linkedList.length; i++) {
-            var item = linkedList[i];
-            if (item.previous_item_id === null) {
-                currentId = item.item_id;
-                sortedList.push(item);
-            } else {
-                map.set(item.previous_item_id, i);
-            }
-        }
-
-        while (sortedList.length < linkedList.length) {
-            var nextItem = linkedList[map.get(currentId)];
-            sortedList.push(nextItem);
-            currentId = nextItem.item_id;
-        }
-
-        return sortedList;
-    };
-
     LinkedList.prototype.mergeSort = function (head) {
         this._mergeSort(this.head);
         return this;
@@ -233,7 +207,7 @@ class LinkedList {
         let current = this.head,
             previous = null;
         while (current) {
-            var next = current.next;
+            let next = current.next;
             current.next = previous;
             previous = current;
             current = next;
