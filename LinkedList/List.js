@@ -1,19 +1,12 @@
-class Node {
-    constructor(data, next = null) {
-        this.data = data;
-        this.next = next;
-    }
-}
-
-class LinkedList {
+class List {
     constructor() {
         this.head = null;
     }
 }
 
 (function () {
-    LinkedList.prototype.push = function (data) {
-        let newNode = new Node(data);
+    List.prototype.push = function (data) {
+        const newNode = new Node(data);
 
         if (!this.head) {
             this.head = newNode;
@@ -28,7 +21,7 @@ class LinkedList {
         return this.head;
     };
 
-    LinkedList.prototype.getAt = function (index) {
+    List.prototype.getAt = function (index) {
         let counter = 0;
         let node = this.head;
         while (node) {
@@ -41,40 +34,37 @@ class LinkedList {
         return null;
     };
 
-    LinkedList.prototype.getByIndex = function (index) {
+    List.prototype.getByIndex = function (index) {
         const node = this.getAt(index);
 
         return node === null ? null : node.data;
     };
 
 
-
-    LinkedList.prototype.insertAt = function (data, index) {
-
+    List.prototype.insertAt = function (data, index) {
         if (!this.head) {
             this.head = new Node(data);
-            return;
+            return this;
         }
 
         if (index === 0) {
             this.head = new Node(data, this.head);
-            return;
+            return this;
         }
 
         const previous = this.getAt(index - 1);
-        let newNode = new Node(data);
+        const newNode = new Node(data);
         newNode.next = previous.next;
         previous.next = newNode;
 
-        return this.head
+        return this;
     };
 
-    LinkedList.prototype.first = function () {
+    List.prototype.first = function () {
         return this.head;
     };
 
-    LinkedList.prototype.last = function () {
-
+    List.prototype.last = function () {
         let tail = this.head;
         while (tail.next !== null) {
             tail = tail.next;
@@ -82,14 +72,14 @@ class LinkedList {
         return tail;
     };
 
-    LinkedList.prototype.next = function (node) {
+    List.prototype.next = function (node) {
         if (node.next) {
             return node.next;
         }
         return null;
     };
 
-    LinkedList.prototype.prev = function (node) {
+    List.prototype.prev = function (node) {
         let tmp = this.head;
         while (tmp.next !== null) {
             if (tmp.next === node) {
@@ -100,7 +90,7 @@ class LinkedList {
         return null;
     };
 
-    LinkedList.prototype.find = function (data) {
+    List.prototype.find = function (data) {
         let tmp = this.head;
         while (tmp.next !== null) {
             if (tmp.data === data) {
@@ -111,69 +101,68 @@ class LinkedList {
         return -1;
     };
 
-    LinkedList.prototype.deleteAt = function (index) {
-
+    List.prototype.deleteAt = function (index) {
         if (!this.head) {
-            this.head = new Node(data);
-            return;
+            this.head = new Node();
+            return this;
         }
 
         if (index === 0) {
             this.head = this.head.next;
-            return;
+            return this;
         }
 
         const previous = this.getAt(index - 1);
 
         if (!previous || !previous.next) {
-            return;
+            return this;
         }
 
         previous.next = previous.next.next;
         return this;
     };
 
-    LinkedList.prototype.clear = function () {
+    List.prototype.clear = function () {
         this.head = null;
     };
 
-    LinkedList.prototype.toString = function () {
+    List.prototype.toString = function () {
         let tmp = this.head;
 
         let out = '';
         while (tmp && tmp.next !== null) {
-            out += tmp.data + ', ';
+            out += `${tmp.data}, `;
             tmp = tmp.next;
         }
         tmp && (out += tmp.data);
         return out;
     };
 
-    LinkedList.prototype.print = function () {
+    List.prototype.print = function () {
         console.log(this.toString());
     };
 
-    LinkedList.prototype.mergeSort = function (head) {
+    List.prototype.mergeSort = function (head) {
         this._mergeSort(this.head);
         return this;
     };
 
-    LinkedList.prototype._mergeSort = function (head) {
+    List.prototype._mergeSort = function (head) {
         if (head == null || head.next == null) {
             return head;
         }
 
-        let middle = this.getMiddle(head);
-        let left_head = head;
-        let right_head = middle.next;
+        const middle = this.getMiddle(head);
+        const left_head = head;
+        const right_head = middle.next;
         middle.next = null;
 
         return this.merge(this._mergeSort(left_head), this._mergeSort(right_head));
     };
 
 
-    LinkedList.prototype.merge = function (a, b) {
-        let dummyHead = new Node();
+    List.prototype.merge = function (a, b) {
+        const dummyHead = new Node();
 
         for (var current = dummyHead; a != null && b != null; current = current.next) {
             if (a.data <= b.data) {
@@ -183,15 +172,13 @@ class LinkedList {
                 current.next = b;
                 b = b.next;
             }
-
         }
         current.next = (a === null) ? b : a;
         return dummyHead.next;
     };
 
-    LinkedList.prototype.getMiddle = function (head) {
-        if (head == null)
-            return head;
+    List.prototype.getMiddle = function (head) {
+        if (head == null) return head;
 
         let slow = head;
         let fast = head;
@@ -203,11 +190,11 @@ class LinkedList {
         return slow;
     };
 
-    LinkedList.prototype.reverse = function () {
-        let current = this.head,
-            previous = null;
+    List.prototype.reverse = function () {
+        let current = this.head;
+        let previous = null;
         while (current) {
-            let next = current.next;
+            const { next } = current;
             current.next = previous;
             previous = current;
             current = next;
@@ -216,14 +203,15 @@ class LinkedList {
         return this;
     };
 
-    LinkedList.prototype.mergeWithList = function (list) {
+    List.prototype.mergeWithList = function (list) {
         this._mergeTwoSortedHead(this.head, list.head);
         return this;
     };
 
-    LinkedList.prototype._mergeTwoSortedHead = function (l1, l2) {
-        let mergedLinkedListHead = new Node();
-        let runner = mergedLinkedListHead;
+    // eslint-disable-next-line no-underscore-dangle
+    List.prototype._mergeTwoSortedHead = function (l1, l2) {
+        const mergedListHead = new Node();
+        let runner = mergedListHead;
         while (l1 && l2) {
             if (l1.data > l2.data) {
                 runner.next = l2;
@@ -235,7 +223,6 @@ class LinkedList {
             runner = runner.next;
         }
         runner.next = l1 || l2;
-        return mergedLinkedListHead.next;
+        return mergedListHead.next;
     };
-
-})()
+}());
