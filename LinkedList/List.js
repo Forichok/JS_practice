@@ -194,7 +194,9 @@ class List {
         let current = this.head;
         let previous = null;
         while (current) {
-            const { next } = current;
+            const {
+                next
+            } = current;
             current.next = previous;
             previous = current;
             current = next;
