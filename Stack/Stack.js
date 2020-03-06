@@ -35,7 +35,7 @@ class Stack extends List {
     }
 
     Stack.prototype.isEmpty = function () {
-        return (size < 1) ? true : false;
+        return this.head != null;
     }
 
 })();
