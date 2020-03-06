@@ -68,8 +68,10 @@ describe('Test List', () => {
         var a = new Stack();
         a.push(6);
         a.push(7);
-        a.top();
-        a.top();
+        a.push(8);
+        a.push(9);
+        // a.top();
+        // a.top();
         // assert.equal(a.toString(), 1);
         assert.equal(a.top(), 1);
     });
