@@ -55,4 +55,22 @@ describe('Test List', () => {
         const listB = list.mergeWithList(listA);
         assert.equal(listB.toString(), '1, 2, 3, 5, 5, 6, 6, 7, 8, 9, 9, 12');
     });
+
+
+    it("", () => {
+        var a = new Stack();
+        a.push(6);
+        assert.equal(a.toString(), 1);
+        assert.equal(a.pop(), 1);
+    });
+
+    it("", () => {
+        var a = new Stack();
+        a.push(6);
+        a.push(7);
+        a.top();
+        a.top();
+        // assert.equal(a.toString(), 1);
+        assert.equal(a.top(), 1);
+    });
 });
